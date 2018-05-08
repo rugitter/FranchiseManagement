@@ -2,8 +2,9 @@
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Assignment2.Models;
 
-namespace Assignment2.Models
+namespace Assignment2.Data
 {
     public static class SeedData
     {
@@ -15,9 +16,9 @@ namespace Assignment2.Models
                 // Look for any movies.
                 //if (context.Product.Any() || context.Store.Any() || context.StoreInventory.Any() || context.OwnerInventory.Any()
                 //    || context.StockRequest.Any())
-                if (!context.Store.Any())
+                if (!context.Stores.Any())
                 {
-                    context.Store.AddRange(
+                    context.Stores.AddRange(
                         new Store { //ID = 1,
                             Name = "Melbourne CBD" },
                         new Store { //ID = 2,
@@ -29,9 +30,9 @@ namespace Assignment2.Models
                     context.SaveChanges();
                 }
 
-                if (!context.Product.Any())
+                if (!context.Products.Any())
                 {
-                    context.Product.AddRange(
+                    context.Products.AddRange(
                         new Product { //ID = 1,
                                 Name = "Rabbit" },
                         new Product { //ID = 2,
@@ -49,12 +50,12 @@ namespace Assignment2.Models
                     context.SaveChanges();
                 }
 
-            if (!context.OwnerInventory.Any())
+            if (!context.OwnerInventories.Any())
             {
-                context.OwnerInventory.AddRange(
+                context.OwnerInventories.AddRange(
                     new OwnerInventory
-                    {   ProductID = context.Product.Single(p => p.Name == "Rabbit").ID,
-                        //ProductID = 1, 
+                    {   //ProductID = 1, 
+                        ProductID = context.Products.Single(p => p.Name == "Rabbit").ProductID,
                         StockLevel = 20 },
                     new OwnerInventory { ProductID = 2, StockLevel = 41 },
                     new OwnerInventory { ProductID = 3, StockLevel = 72 },
@@ -69,9 +70,9 @@ namespace Assignment2.Models
                 context.SaveChanges();
             }
 
-            if (!context.StoreInventory.Any())
+            if (!context.StoreInventories.Any())
             {
-                context.StoreInventory.AddRange(
+                context.StoreInventories.AddRange(
                     new StoreInventory { StoreID = 1, ProductID = 1, StockLevel = 16 },
                     new StoreInventory { StoreID = 1, ProductID = 2, StockLevel = 36 },
                     new StoreInventory { StoreID = 1, ProductID = 3, StockLevel = 8 },
@@ -84,9 +85,9 @@ namespace Assignment2.Models
                 context.SaveChanges();
             }
 
-            if (!context.StockRequest.Any())
+            if (!context.StockRequests.Any())
             {
-                context.StockRequest.AddRange(
+                context.StockRequests.AddRange(
                     new StockRequest { //ID = 1, 
                         StoreID = 1, ProductID = 1, Quantity = 10 },
                     new StockRequest { //ID = 2,

@@ -7,7 +7,7 @@ namespace Assignment2.Models
 {
     public class Store
     {
-        public int ID { get; set; }
+        public int StoreID { get; set; }
 
         [Required]
         [Display(Name = "Store Name")]

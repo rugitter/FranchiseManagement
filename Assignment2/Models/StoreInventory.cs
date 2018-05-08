@@ -7,8 +7,13 @@ namespace Assignment2.Models
 {
     public class StoreInventory
     {
+        [Required]
         public int StoreID { get; set; }
+        [Required]
         public int ProductID { get; set; }
+        [Required]
+        [Display(Name = "Stock Level")]
+        [Range(0, 10000)]
         public int StockLevel { get; set; }
 
         public Store Store { get; set; }

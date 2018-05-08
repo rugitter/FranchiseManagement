@@ -5,26 +5,28 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Assignment2.Data;
 using Assignment2.Models;
 
 namespace Assignment2.Controllers
 {
-    public class StoreController : Controller
+    public class OwnerInventoriesController : Controller
     {
         private readonly Assignment2Context _context;
 
-        public StoreController(Assignment2Context context)
+        public OwnerInventoriesController(Assignment2Context context)
         {
             _context = context;
         }
 
-        // GET: Store
+        // GET: OwnerInventories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Store.ToListAsync());
+            var assignment2Context = _context.OwnerInventories.Include(o => o.Product);
+            return View(await assignment2Context.ToListAsync());
         }
 
-        // GET: Store/Details/5
+        // GET: OwnerInventories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +34,42 @@ namespace Assignment2.Controllers
                 return NotFound();
             }
 
-            var store = await _context.Store
-                .SingleOrDefaultAsync(m => m.ID == id);
-            if (store == null)
+            var ownerInventory = await _context.OwnerInventories
+                .Include(o => o.Product)
+                .SingleOrDefaultAsync(m => m.ProductID == id);
+            if (ownerInventory == null)
             {
                 return NotFound();
             }
 
-            return View(store);
+            return View(ownerInventory);
         }
 
-        // GET: Store/Create
+        // GET: OwnerInventories/Create
         public IActionResult Create()
         {
+            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name");
             return View();
         }
 
-        // POST: Store/Create
+        // POST: OwnerInventories/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name")] Store store)
+        public async Task<IActionResult> Create([Bind("ProductID,StockLevel")] OwnerInventory ownerInventory)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(store);
+                _context.Add(ownerInventory);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(store);
+            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name", ownerInventory.ProductID);
+            return View(ownerInventory);
         }
 
-        // GET: Store/Edit/5
+        // GET: OwnerInventories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +77,25 @@ namespace Assignment2.Controllers
                 return NotFound();
             }
 
-            var store = await _context.Store.SingleOrDefaultAsync(m => m.ID == id);
-            if (store == null)
+            var ownerInventory = await _context.OwnerInventories
+                .Include(o => o.Product)
+                .SingleOrDefaultAsync(m => m.ProductID == id);
+            if (ownerInventory == null)
             {
                 return NotFound();
             }
-            return View(store);
+            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name", ownerInventory.ProductID);
+            return View(ownerInventory);
         }
 
-        // POST: Store/Edit/5
+        // POST: OwnerInventories/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name")] Store store)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductID,StockLevel")] OwnerInventory ownerInventory)
         {
-            if (id != store.ID)
+            if (id != ownerInventory.ProductID)
             {
                 return NotFound();
             }
@@ -96,12 +104,12 @@ namespace Assignment2.Controllers
             {
                 try
                 {
-                    _context.Update(store);
+                    _context.Update(ownerInventory);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StoreExists(store.ID))
+                    if (!OwnerInventoryExists(ownerInventory.ProductID))
                     {
                         return NotFound();
                     }
@@ -112,10 +120,11 @@ namespace Assignment2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(store);
+            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name", ownerInventory.ProductID);
+            return View(ownerInventory);
         }
 
-        // GET: Store/Delete/5
+        // GET: OwnerInventories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +132,31 @@ namespace Assignment2.Controllers
                 return NotFound();
             }
 
-            var store = await _context.Store
-                .SingleOrDefaultAsync(m => m.ID == id);
-            if (store == null)
+            var ownerInventory = await _context.OwnerInventories
+                .Include(o => o.Product)
+                .SingleOrDefaultAsync(m => m.ProductID == id);
+            if (ownerInventory == null)
             {
                 return NotFound();
             }
 
-            return View(store);
+            return View(ownerInventory);
         }
 
-        // POST: Store/Delete/5
+        // POST: OwnerInventories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var store = await _context.Store.SingleOrDefaultAsync(m => m.ID == id);
-            _context.Store.Remove(store);
+            var ownerInventory = await _context.OwnerInventories.SingleOrDefaultAsync(m => m.ProductID == id);
+            _context.OwnerInventories.Remove(ownerInventory);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StoreExists(int id)
+        private bool OwnerInventoryExists(int id)
         {
-            return _context.Store.Any(e => e.ID == id);
+            return _context.OwnerInventories.Any(e => e.ProductID == id);
         }
     }
 }

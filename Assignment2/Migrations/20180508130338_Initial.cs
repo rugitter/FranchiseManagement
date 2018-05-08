@@ -13,26 +13,26 @@ namespace Assignment2.Migrations
                 name: "Product",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    ProductID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Product", x => x.ID);
+                    table.PrimaryKey("PK_Product", x => x.ProductID);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Store",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    StoreID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Store", x => x.ID);
+                    table.PrimaryKey("PK_Store", x => x.StoreID);
                 });
 
             migrationBuilder.CreateTable(
@@ -49,7 +49,7 @@ namespace Assignment2.Migrations
                         name: "FK_OwnerInventory_Product_ProductID",
                         column: x => x.ProductID,
                         principalTable: "Product",
-                        principalColumn: "ID",
+                        principalColumn: "ProductID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -57,7 +57,7 @@ namespace Assignment2.Migrations
                 name: "StockRequest",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    StockRequestID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ProductID = table.Column<int>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
@@ -65,18 +65,18 @@ namespace Assignment2.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StockRequest", x => x.ID);
+                    table.PrimaryKey("PK_StockRequest", x => x.StockRequestID);
                     table.ForeignKey(
                         name: "FK_StockRequest_Product_ProductID",
                         column: x => x.ProductID,
                         principalTable: "Product",
-                        principalColumn: "ID",
+                        principalColumn: "ProductID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_StockRequest_Store_StoreID",
                         column: x => x.StoreID,
                         principalTable: "Store",
-                        principalColumn: "ID",
+                        principalColumn: "StoreID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -95,13 +95,13 @@ namespace Assignment2.Migrations
                         name: "FK_StoreInventory_Product_ProductID",
                         column: x => x.ProductID,
                         principalTable: "Product",
-                        principalColumn: "ID",
+                        principalColumn: "ProductID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_StoreInventory_Store_StoreID",
                         column: x => x.StoreID,
                         principalTable: "Store",
-                        principalColumn: "ID",
+                        principalColumn: "StoreID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
