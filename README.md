@@ -10,7 +10,8 @@ Other component:
    Shopping Cart
    
 <h4>How to Run</h4>
-<p>Open PMC, Input the following commands:<br>
+<p>First things first, change appsettings.json file中DefaultConnection String value, using your own database address/login.
+<p>Secondly, Open PMC, Input the following commands:<br>
 1. Add-Migration Initial	- Generate migration file "Initial"<br>
 2. Update-Database		   - Create corresponding Database and Tables inside<br>
 3. Run the website (F5) 	- First time run, auto seeding the DB<br>
