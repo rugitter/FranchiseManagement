@@ -10,8 +10,8 @@ Other component:
    Shopping Cart
    
 <h4>How to Run</h4>
-<p>PMC:
-1. Add-Migration Initial	- Generate migration file "Initial"
-2. Update-Database		- Create corresponding Database and Tables inside
-3. F5 to run the website 	- First time run, auto seeding the DB
+<p>Open PMC, Input the following commands:<br>
+1. Add-Migration Initial	- Generate migration file "Initial"<br>
+2. Update-Database		   - Create corresponding Database and Tables inside<br>
+3. Run the website (F5) 	- First time run, auto seeding the DB<br>
 </p>
