@@ -14,8 +14,7 @@ namespace Assignment2.Models
         public int StoreID { get; set; }
         [Required]
         public int ProductID { get; set; }
-        [Required]
-        [Range(1,1000)]
+        [Required, Range(1, 1000)]
         public int Quantity { get; set; }
 
         public Store Store { get; set; }

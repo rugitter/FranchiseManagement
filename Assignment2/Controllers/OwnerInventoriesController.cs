@@ -7,23 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Assignment2.Data;
 using Assignment2.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Assignment2.Controllers
 {
+    [Authorize(Roles = "Owner")]
     public class OwnerInventoriesController : Controller
     {
-        private readonly Assignment2Context _context;
+        private readonly ApplicationDbContext _context;
 
-        public OwnerInventoriesController(Assignment2Context context)
+        public OwnerInventoriesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         // GET: OwnerInventories
+        
         public async Task<IActionResult> Index()
         {
-            var assignment2Context = _context.OwnerInventories.Include(o => o.Product);
-            return View(await assignment2Context.ToListAsync());
+            var applicationDbContext = _context.OwnerInventories.Include(o => o.Product);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: OwnerInventories/Details/5
@@ -77,9 +80,7 @@ namespace Assignment2.Controllers
                 return NotFound();
             }
 
-            var ownerInventory = await _context.OwnerInventories
-                .Include(o => o.Product)
-                .SingleOrDefaultAsync(m => m.ProductID == id);
+            var ownerInventory = await _context.OwnerInventories.SingleOrDefaultAsync(m => m.ProductID == id);
             if (ownerInventory == null)
             {
                 return NotFound();

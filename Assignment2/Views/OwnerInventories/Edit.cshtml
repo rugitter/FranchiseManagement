@@ -1,30 +1,15 @@
 ﻿@model Assignment2.Models.OwnerInventory
 
 @{
-    ViewData["Title"] = "OwnerInventory";
+    ViewData["Title"] = "Edit";
 }
 
-<h2>Update Owner Stock Level</h2>
+<h2>Edit</h2>
 
-<h4>OwnerInventory</h4>
+<h4>Owner Inventory</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.ProductID)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.ProductID)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Product.Name)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Product.Name)
-            </dd>
-        </dl>
-
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ProductID" />

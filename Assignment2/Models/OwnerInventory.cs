@@ -7,9 +7,8 @@ namespace Assignment2.Models
     {
         [Key, ForeignKey("Product"), Display(Name = "Product ID")]
         public int ProductID { get; set; }
-        [Required]
-        [Display(Name = "Stock Level")]
-        [Range(0, 10000)]
+
+        [Required, Range(0, 10000), Display(Name = "Stock Level")]
         public int StockLevel { get; set; }
 
         public Product Product { get; set; }

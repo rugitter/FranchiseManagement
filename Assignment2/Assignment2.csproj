@@ -2,22 +2,32 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <UserSecretsId>aspnet-Assignment2-CE716217-EDE0-465A-A849-2FFF0F11F1AA</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20180501131524_Initial.cs" />
-    <Compile Remove="Migrations\20180501131524_Initial.Designer.cs" />
-    <Compile Remove="Migrations\20180501142347_Initial.cs" />
-    <Compile Remove="Migrations\20180501142347_Initial.Designer.cs" />
+    <Compile Remove="Views\NewFolder\**" />
+    <Content Remove="Views\NewFolder\**" />
+    <EmbeddedResource Remove="Views\NewFolder\**" />
+    <None Remove="Views\NewFolder\**" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20180511090412_AddAllModels.cs" />
+    <Compile Remove="Data\Migrations\20180511090412_AddAllModels.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.2" />
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.1" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
   </ItemGroup>
+
 </Project>

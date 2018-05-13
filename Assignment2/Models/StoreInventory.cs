@@ -11,12 +11,17 @@ namespace Assignment2.Models
         public int StoreID { get; set; }
         [Required]
         public int ProductID { get; set; }
-        [Required]
-        [Display(Name = "Stock Level")]
-        [Range(0, 10000)]
+        [Required, Range(0, 10000), Display(Name = "Stock Level")]
         public int StockLevel { get; set; }
 
         public Store Store { get; set; }
         public Product Product { get; set; }
+
+        //public StoreInventory(int sID, int pID, int sLevel)
+        //{
+        //    StoreID = sID;
+        //    ProductID = pID;
+        //    StockLevel = sLevel;
+        //}
     }
 }

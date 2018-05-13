@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore;
+﻿using Assignment2.Data;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
-
-using Microsoft.Extensions.DependencyInjection;
-using Assignment2.Data;
 
 namespace Assignment2
 {
@@ -19,17 +18,15 @@ namespace Assignment2
                 var services = scope.ServiceProvider;
                 try
                 {
-                    // May need to initialize a context object
-                    var context = services.GetRequiredService<Assignment2Context>();
-                    SeedData.Initialize(context);
+                    SeedData.Initialize(services).Wait();
                 }
                 catch (Exception ex)
                 {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred seeding the DB.");
+                    services.GetRequiredService<ILogger<Program>>().
+                        LogError(ex, "An error occurred while seeding the database.");
+                    // throw;
                 }
             }
-
             host.Run();
         }
 

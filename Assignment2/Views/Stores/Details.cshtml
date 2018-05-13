@@ -27,46 +27,45 @@
         </dt>
         <dd>
             <table class="table">
-                @*<thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.StoreInventories)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Product)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.StockLevel)
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>*@
+                <thead>
+                    <tr>
+                        <th>
+                            Product ID
+                        </th>
+                        <th>
+                            Product Name
+                        </th>
+                        <th>
+                            StockLevel
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
                 <tbody>
                     @foreach (var item in Model.StoreInventories)
                     {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ProductID)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Product.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.StockLevel)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.ProductID">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.ProductID">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.ProductID">Delete</a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProductID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Product.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StockLevel)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.ProductID">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.ProductID">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.ProductID">Delete</a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
 
         </dd>
     </dl>
-
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.StoreID">Edit</a> |

@@ -31,10 +31,14 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="OwnerInventories" asp-action="Index">OwnerInventory</a></li>
                     <li><a asp-area="" asp-controller="Stores" asp-action="Index">Stores</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Customer</a></li>
+                    <li><a asp-area="" asp-controller="OwnerInventories" asp-action="Index">Owner</a></li>
+                    <li><a asp-area="" asp-controller="StockRequests" asp-action="Index">StockRequest</a></li>
+                    <li><a asp-area="" asp-controller="Franchisee" asp-action="Index">Franchisee</a></li>
+                    <li><a asp-area="" asp-controller="Customers" asp-action="Index">Customer</a></li>
                 </ul>
+                @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
     </nav>
@@ -42,7 +46,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - COSC 2276/2277 WDT - Assignment2</p>
+            <p>&copy; 2018 - Assignment2</p>
         </footer>
     </div>
 

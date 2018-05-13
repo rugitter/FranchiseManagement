@@ -1,0 +1,74 @@
+﻿@model Assignment2.Models.Store
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Store Inventory</h2>
+
+<div>
+    <h4><strong>Store</strong> - @Html.DisplayFor(model => model.Name)</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StoreID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StoreID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StoreInventories)
+        </dt>
+        <dd>
+            <table class="table">
+                <thead>
+                        <tr>
+                            <th>
+                                Product ID
+                            </th>
+                            <th>
+                                Product Name
+                            </th>
+                            <th>
+                                StockLevel
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                <tbody>
+                    @foreach (var item in Model.StoreInventories)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProductID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Product.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.StockLevel)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.ProductID">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.ProductID">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.ProductID">Delete</a> |
+                                <a asp-action="MakeRequest" asp-route-id="@item.ProductID">Make Request</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="AddItem">Add New Item</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

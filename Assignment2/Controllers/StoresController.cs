@@ -7,14 +7,16 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Assignment2.Data;
 using Assignment2.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Assignment2.Controllers
 {
+    [Authorize(Roles = "Franchisee, Owner")]
     public class StoresController : Controller
     {
-        private readonly Assignment2Context _context;
+        private readonly ApplicationDbContext _context;
 
-        public StoresController(Assignment2Context context)
+        public StoresController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -37,6 +39,7 @@ namespace Assignment2.Controllers
                 .Include(s => s.StoreInventories)
                 .ThenInclude(i => i.Product)
                 .SingleOrDefaultAsync(m => m.StoreID == id);
+
             if (store == null)
             {
                 return NotFound();
@@ -44,6 +47,7 @@ namespace Assignment2.Controllers
 
             return View(store);
         }
+
 
         // GET: Stores/Create
         public IActionResult Create()
