@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Web;
 
 namespace Assignment2.Controllers
 {
@@ -50,29 +51,28 @@ namespace Assignment2.Controllers
 
 
         // GET: Franchisee/MakeRequest/5
-        public async Task<IActionResult> MakeRequest(int? productID)
+        public async Task<IActionResult> MakeRequest(int? id)
         {
             var user = await _userManager.GetUserAsync(User);
-
+            int? sID = user.StoreID;
             // When a user doesn't have a storeID, i.e. User is not a FranchiseHolder
-            if (user.StoreID == null)
+            if (sID == null)
             {
                 return NotFound();
             }
-            ViewData["StoreID"] = user.StoreID;
+            ViewData["StoreID"] = sID;
             // new SelectList(_context.Stores, "StoreID", "Name", stockRequest.StoreID);
 
-            if (productID == null)
+            if (id == null)
             {
                 return NotFound();
             }
-            var product = await _context.Products.SingleOrDefaultAsync(p => p.ProductID == productID);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            ViewData["ProductID"] = productID;
-            //new SelectList(_context.Products, "ProductID", "Name", stockRequest.ProductID);
+            var product = await _context.Products.SingleOrDefaultAsync(p => p.ProductID == id);
+            //if (product == null)
+            //{
+            //    return NotFound();
+            //}
+            ViewData["ProductID"] = id;
             
             return View();
         }
@@ -116,29 +116,24 @@ namespace Assignment2.Controllers
                 return NotFound();
             }
             ViewData["StoreID"] = sID;
-            // new SelectList(_context.Stores, "StoreID", "Name", stockRequest.StoreID);
-
-            // var store = _context.Stores.SingleOrDefaultAsync(s => s.StoreID == sID);
 
             IEnumerable<Product> currentProducts = _context.StoreInventories.Include(i => i.Product)
                                                    .Where(i => i.StoreID == sID).Select(i => i.Product);
 
-            //var store = await _context.Stores
-            //.Include(s => s.StoreInventories)
-            //.ThenInclude(i => i.Product)
-            //.SingleOrDefaultAsync(m => m.StoreID == id);
+            IEnumerable<Product> newProducts = _context.Products.Except(currentProducts);
 
-            var newProducts = _context.Products.Except(currentProducts);
-            //p => p.ProductID != currentProducts.ProductID);
-
-            //_context.Stores.).SingleOrDefaultAsync(p => p.ProductID == id);
-            if (newProducts.Any())
+            if (!newProducts.Any())
             {
-                return NotFound();          // Should Display No New Item available to add, Return
+                //string script = "alert(\"Hello!\");";
+                //ScriptManager.RegisterStartupScript(this, GetType(), "ServerControlScript", script, true);
+                //ScriptManager.RegisterClientScriptBlock(this, GetType(), "alertMessage", "alert('No New Product Available to Add!')", true);
+                //Response.Write("<script LANGUAGE='JavaScript' >alert('Login Successful')</script>");
+
+                ViewBag.SuccessMessage = "No New Product Available";
+                return RedirectToAction(nameof(Index)); ;          // Should Display No New Item available to add, Return
             }
 
             ViewData["ProductID"] = new SelectList(newProducts, "ProductID", "Name");
-            // ViewData["StoreID"] = new SelectList(_context.Stores, "StoreID", "Name");
 
             return View();
         }
@@ -161,6 +156,7 @@ namespace Assignment2.Controllers
                 {
                     throw;
                 }
+                //*** Should Add Successful information
                 return RedirectToAction(nameof(Index));
             }
 
@@ -169,10 +165,6 @@ namespace Assignment2.Controllers
             IEnumerable<Product> currentProducts = _context.StoreInventories.Include(i => i.Product)
                 .Where(i => i.StoreID == stockRequest.StoreID).Select(i => i.Product);
             var newProducts = _context.Products.Except(currentProducts);
-            if (newProducts == null)
-            {
-                return NotFound();          // Should Display No New Item available to add, Return
-            }
             ViewData["ProductID"] = new SelectList(newProducts, "ProductID", "Name", stockRequest.ProductID);
 
             return View();
