@@ -1,35 +1,42 @@
 ﻿@model IEnumerable<Assignment2.Models.Store>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Customer";
 }
 
-<h2>Index</h2>
+<h2>Display All Stores</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
+            <th>
+                Store ID
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.StoreID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.StoreID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.StoreID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StoreID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.StoreID">Display Inventory</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<div>
+    <a asp-controller="ShoppingCarts" asp-action="Index">Shopping Cart</a>
+</div>
+

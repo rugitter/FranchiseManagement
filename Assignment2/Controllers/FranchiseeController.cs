@@ -36,6 +36,7 @@ namespace Assignment2.Controllers
                 return NotFound();      
             }
 
+            // Working. But is that right to use Store to include other tables?
             var store = await _context.Stores
                 .Include(s => s.StoreInventories)
                 .ThenInclude(i => i.Product)
@@ -61,17 +62,17 @@ namespace Assignment2.Controllers
                 return NotFound();
             }
             ViewData["StoreID"] = sID;
-            // new SelectList(_context.Stores, "StoreID", "Name", stockRequest.StoreID);
 
             if (id == null)
             {
                 return NotFound();
             }
+            // ? Check if product id exists
             var product = await _context.Products.SingleOrDefaultAsync(p => p.ProductID == id);
-            //if (product == null)
-            //{
-            //    return NotFound();
-            //}
+            if (product == null)
+            {
+                return NotFound();
+            }
             ViewData["ProductID"] = id;
             
             return View();
@@ -119,7 +120,6 @@ namespace Assignment2.Controllers
 
             IEnumerable<Product> currentProducts = _context.StoreInventories.Include(i => i.Product)
                                                    .Where(i => i.StoreID == sID).Select(i => i.Product);
-
             IEnumerable<Product> newProducts = _context.Products.Except(currentProducts);
 
             if (!newProducts.Any())
@@ -132,7 +132,6 @@ namespace Assignment2.Controllers
                 ViewBag.SuccessMessage = "No New Product Available";
                 return RedirectToAction(nameof(Index)); ;          // Should Display No New Item available to add, Return
             }
-
             ViewData["ProductID"] = new SelectList(newProducts, "ProductID", "Name");
 
             return View();
@@ -165,6 +164,7 @@ namespace Assignment2.Controllers
             IEnumerable<Product> currentProducts = _context.StoreInventories.Include(i => i.Product)
                 .Where(i => i.StoreID == stockRequest.StoreID).Select(i => i.Product);
             var newProducts = _context.Products.Except(currentProducts);
+
             ViewData["ProductID"] = new SelectList(newProducts, "ProductID", "Name", stockRequest.ProductID);
 
             return View();

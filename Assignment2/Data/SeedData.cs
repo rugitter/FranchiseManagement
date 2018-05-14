@@ -39,16 +39,16 @@ namespace Assignment2.Data
             if (!context.Products.Any())
             {
                 context.Products.AddRange(
-                    new Product { Name = "Rabbit" },
-                    new Product { Name = "Hat" },
-                    new Product { Name = "Svengali Deck" },
-                    new Product { Name = "Floating Hankerchief" },
-                    new Product { Name = "Wand" },
-                    new Product { Name = "Broomstick" },
-                    new Product { Name = "Bang Gun" },
-                    new Product { Name = "Cloak of Invisibility" },
-                    new Product { Name = "Elder Wand" },
-                    new Product { Name = "Resurrection Stone" }
+                    new Product { Name = "Rabbit", UnitPrice = 5.50m },
+                    new Product { Name = "Hat", UnitPrice = 10.50m },
+                    new Product { Name = "Svengali Deck", UnitPrice = 15.50m },
+                    new Product { Name = "Floating Hankerchief", UnitPrice = 100.00m },
+                    new Product { Name = "Wand", UnitPrice = 30.00m },
+                    new Product { Name = "Broomstick", UnitPrice = 80.00m },
+                    new Product { Name = "Bang Gun", UnitPrice = 120.00m },
+                    new Product { Name = "Cloak of Invisibility", UnitPrice = 50.00m },
+                    new Product { Name = "Elder Wand", UnitPrice = 120.00m },
+                    new Product { Name = "Resurrection Stone", UnitPrice = 40.00m }
                 );
                 context.SaveChanges();
             }

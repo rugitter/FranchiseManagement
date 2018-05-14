@@ -17,11 +17,5 @@ namespace Assignment2.Models
         public Store Store { get; set; }
         public Product Product { get; set; }
 
-        //public StoreInventory(int sID, int pID, int sLevel)
-        //{
-        //    StoreID = sID;
-        //    ProductID = pID;
-        //    StockLevel = sLevel;
-        //}
     }
 }

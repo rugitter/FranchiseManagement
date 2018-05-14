@@ -19,8 +19,8 @@ namespace Assignment2.Data
         public DbSet<StoreInventory> StoreInventories { get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<StockRequest> StockRequests { get; set; }
-        //public DbSet<ShoppingCart> ShoppingCarts { get; set; }
-        //public DbSet<Order> Orders { get; set; }
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
