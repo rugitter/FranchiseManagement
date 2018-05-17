@@ -10,33 +10,15 @@ namespace Assignment2.Models
     {
         [Required]
         public int OrderID { get; set; }
-        [Required]
-        public int StoreID { get; set; }
-        [Required]
-        public int ProductID { get; set; }
-        [Required, Range(0, 100)]
-        public int Quantity { get; set; }
 
-        //[Display(Name = "Total Price"), DataType(DataType.Currency)]
-        //public decimal SubTotal {
-        //    get {
-        //        foreach(ShoppingCart i in ShoppingCarts)
-        //        { sub += i.SubPrice; }
+        [Display(Name = "Order Date"), DataType(DataType.Date)]
+        // [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime OrderDate { get; set; }
 
-        //        return sub;
-        //    }
-        //}
+        //[Required]
+        //public String OrderUserID { get; set; }
 
-        // The subtotal price = item's unit price x amout of unit
-        public decimal SubPrice
-        {
-            get
-            {
-                return Product.UnitPrice * Quantity;
-            }
-        }
+        public ICollection<OrderItem> OrderItems { get; set; }
 
-        public Store Store { get; set; }
-        public Product Product { get; set; }
     }
 }

@@ -1,7 +1,13 @@
 ﻿@model IEnumerable<Assignment2.Models.ShoppingCart>
 
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@using Assignment2.Data
+
 @{
     ViewData["Title"] = "Shopping Cart";
+    Decimal total = 0;
+    var carts = HttpContextAccessor.HttpContext.Session.Get<List<ShoppingCart>>("_ShoppingCart");
 }
 
 <h2>Shopping Cart</h2>
@@ -28,32 +34,69 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Store.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Product.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @{decimal subPrice = item.Product.UnitPrice * item.Quantity;}
-                @Html.DisplayFor(modelItem => subPrice)
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Store.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @{decimal subPrice = item.Product.UnitPrice * item.Quantity;
+                        total += subPrice;
+                    }
+                    @Html.DisplayFor(modelItem => subPrice)
 
-                @*@Html.DisplayFor(modelItem => item.SubPrice)*@
-
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }) |
-            </td>
-        </tr>
+                    @*@Html.DisplayFor(modelItem => item.SubPrice)*@
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
         }
     </tbody>
 </table>
+
+@foreach (var a in carts)
+{
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => a.StoreID)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => a.ProductID)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => a.Quantity)
+    </td>
+</tr>
+<br />
+}
+<hr />
+<div>
+    <p style="text-align:right"><strong>SubTotal</strong>: @total</p>
+</div>
+<div>
+    <form asp-action="Edit">
+        @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="StoreID" />
+            <input type="hidden" asp-for="ProductID" />
+            <div class="form-group">
+                <label asp-for="Quantity" class="control-label"></label>
+                <input asp-for="Quantity" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>*@
+        <div class="form-group">
+            <input type="submit" value="Update" class="btn btn-default" />
+            <input type="submit" value="Check Out" class="btn btn-default" />
+        </div>
+    </form>
+</div>
 <div>
     <a asp-controller="Stores" asp-action="Index">Back to Store</a>
 </div>

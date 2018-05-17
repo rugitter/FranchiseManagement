@@ -158,6 +158,36 @@ namespace Assignment2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: ShoppingCarts/Delete/5
+        public async Task<IActionResult> CheckOut(int? id)
+        {
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
+            var shoppingCart = await _context.ShoppingCarts
+                .Include(s => s.Product)
+                .Include(s => s.Store)
+                .SingleOrDefaultAsync(m => m.StoreID == id);
+            if (shoppingCart == null)
+            {
+                return NotFound();
+            }
+
+            return View(shoppingCart);
+        }
+
+        // POST: ShoppingCarts/Delete/5
+        [HttpPost, ActionName("CheckOut")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CheckOutConfirmed(int id)
+        {
+            var shoppingCart = await _context.ShoppingCarts.SingleOrDefaultAsync(m => m.StoreID == id);
+            _context.ShoppingCarts.Remove(shoppingCart);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
         private bool ShoppingCartExists(int id)
         {
             return _context.ShoppingCarts.Any(e => e.StoreID == id);

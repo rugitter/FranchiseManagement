@@ -14,7 +14,10 @@ namespace Assignment2.Controllers
     [Authorize(Roles = "Customer, Owner")]
     public class StoresController : Controller
     {
+
+        const string SessionKeyCart = "_ShoppingCart";
         private readonly ApplicationDbContext _context;
+        private ICollection<ShoppingCart> carts = new List<ShoppingCart>();
 
         public StoresController(ApplicationDbContext context)
         {
@@ -48,81 +51,7 @@ namespace Assignment2.Controllers
             return View(store);
         }
 
-        //// GET: Stores/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        //// POST: Stores/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("StoreID,Name")] Store store)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(store);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(store);
-        //}
-
-
-        // GET: Stores/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var store = await _context.Stores.SingleOrDefaultAsync(m => m.StoreID == id);
-        //    if (store == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(store);
-        //}
-
-        //// POST: Stores/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("StoreID,Name")] Store store)
-        //{
-        //    if (id != store.StoreID)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(store);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!StoreExists(store.StoreID))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(store);
-        //}
-
-        // GET: Stores/AddCart/5
+        // GET: Stores/AddCart/1?productID=5
         // id - StoreID - default route parameter
         // ProductID is passed as a paramter in URL 
         public async Task<IActionResult> AddCart(int? id, int? productID)
@@ -163,67 +92,45 @@ namespace Assignment2.Controllers
         // POST: Stores/AddCart/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddCart([Bind("StoreID,ProductID,Quantity")] ShoppingCart cart)
+        public IActionResult AddCart([Bind("StoreID,ProductID,Quantity")] ShoppingCart cart)
         {
-            //if (id != store.StoreID)
-            //{
-            //    return NotFound();
-            //}
-
             if (ModelState.IsValid)
             {
-                try
+                //try
+                //{
+                //    _context.ShoppingCarts.Add(cart);
+                //    await _context.SaveChangesAsync();
+                //}
+                //catch (DbUpdateConcurrencyException)
+                //{
+                //    if (!CartEntryExists(cart))
+                //    {
+                //        return NotFound();
+                //    }
+                //    else
+                //    {
+                //        throw;
+                //    }
+                //}
+
+                var carts = HttpContext.Session.Get<List<ShoppingCart>>(SessionKeyCart);
+                if (carts == null)
                 {
-                    _context.ShoppingCarts.Add(cart);
-                    await _context.SaveChangesAsync();
+                    carts = new List<ShoppingCart>();
+                    carts.Add(cart);
+                    HttpContext.Session.Set<List<ShoppingCart>>(SessionKeyCart, carts);
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!CartEntryExists(cart))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    carts.Add(cart);
+                    HttpContext.Session.Set<List<ShoppingCart>>(SessionKeyCart, carts);
                 }
+
                 return RedirectToAction(nameof(Index));
             }
 
-            // ViewData["StoreID"] = cart.StoreID;
-            // ViewData["ProductID"] = cart.productID;
             return View(cart);
         }
-
-        //// GET: Stores/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var store = await _context.Stores
-        //        .SingleOrDefaultAsync(m => m.StoreID == id);
-        //    if (store == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(store);
-        //}
-
-        //// POST: Stores/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var store = await _context.Stores.SingleOrDefaultAsync(m => m.StoreID == id);
-        //    _context.Stores.Remove(store);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
 
         // Return true if existing, false if not existing
         private bool CartEntryExists(ShoppingCart cart)
