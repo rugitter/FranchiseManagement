@@ -154,7 +154,9 @@ namespace Assignment2.Controllers
             ViewData["StoreName"] = store.Name;
             ViewData["UnitPrice"] = product.UnitPrice;
 
-            ShoppingCart cart = new ShoppingCart { StoreID = store.StoreID, ProductID = pID, Quantity = 1 };
+            ShoppingCart cart =
+                new ShoppingCart { StoreID = store.StoreID, ProductID = pID, Quantity = 1 };
+
             return View(cart);
         }
 

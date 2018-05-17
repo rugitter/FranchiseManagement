@@ -19,7 +19,8 @@
                 @Html.DisplayNameFor(model => model.Quantity)
             </th>
             <th>
-                Price
+                <strong>Price</strong>
+                @*@Html.DisplayNameFor(model => model.SubPrice)*@
             </th>
             <th></th>
         </tr>
@@ -40,6 +41,9 @@
             <td>
                 @{decimal subPrice = item.Product.UnitPrice * item.Quantity;}
                 @Html.DisplayFor(modelItem => subPrice)
+
+                @*@Html.DisplayFor(modelItem => item.SubPrice)*@
+
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
