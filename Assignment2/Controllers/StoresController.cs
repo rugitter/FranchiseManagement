@@ -143,16 +143,16 @@ namespace Assignment2.Controllers
             var pID = _context.StoreInventories
                 .Where(i => i.StoreID == id && i.ProductID == productID)
                 .Select(i => i.ProductID)
-                .SingleOrDefault();     
-            
+                .SingleOrDefault();
+
             if (pID == 0 )      // Product not exists in this store
             {
                 return NotFound();
             }
+            var product = _context.Products.SingleOrDefault(p => p.ProductID == pID);
 
-            // Should not needed
-            // ViewData["StoreID"] = id;
-            // ViewData["ProductID"] = productID;
+            ViewData["StoreName"] = store.Name;
+            ViewData["UnitPrice"] = product.UnitPrice;
 
             ShoppingCart cart = new ShoppingCart { StoreID = store.StoreID, ProductID = pID, Quantity = 1 };
             return View(cart);

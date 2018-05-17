@@ -1,4 +1,5 @@
 ﻿@model Assignment2.Models.ShoppingCart;
+@* May use Models.Product + ViewData [Store ID] *@
 
 @{
     ViewData["Title"] = "Add to Cart";
@@ -6,7 +7,7 @@
 
 <h2>Add to Shopping Cart</h2>
 
-<h4><strong>Store</strong> - @Html.DisplayFor(model => model.StoreID)</h4>
+<h4><strong>Store</strong> - @ViewData["StoreName"]</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -23,13 +24,23 @@
                 <input asp-for="ProductID" class="form-control" readonly="readonly" />
                 <span asp-validation-for="ProductID" class="text-danger"></span>
             </div>
+
+            <strong>Unit Price</strong>
+            <input asp-for="ProductID" class="form-control" readonly="readonly" value="@ViewData["UnitPrice"]"/>
+            
             <div class="form-group">
                 <label asp-for="Quantity" class="control-label"></label>
                 <input asp-for="Quantity" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
+
+            @*<div class="form-group">
+            <label asp-for="UnitPrice" class="control-label"></label>
+            <input asp-for="UnitPrice" class="form-control" />
+            <span asp-validation-for="UnitPrice" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Add to Cart" class="btn btn-default" />
             </div>
         </form>
     </div>

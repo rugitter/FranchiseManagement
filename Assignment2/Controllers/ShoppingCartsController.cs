@@ -47,12 +47,12 @@ namespace Assignment2.Controllers
         }
 
         // GET: ShoppingCarts/Create
-        public IActionResult Create()
-        {
-            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name");
-            ViewData["StoreID"] = new SelectList(_context.Stores, "StoreID", "Name");
-            return View();
-        }
+        //public IActionResult Create()
+        //{
+        //    ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name");
+        //    ViewData["StoreID"] = new SelectList(_context.Stores, "StoreID", "Name");
+        //    return View();
+        //}
 
         // POST: ShoppingCarts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

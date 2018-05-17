@@ -6,15 +6,10 @@
 }
 
 <h2>Inventory List</h2>
-
+<hr />
 <div>
-    <h4><strong>Store</strong> - @Html.DisplayFor(model => model.Name)</h4>
-    <hr />
-    <h5><strong>@Html.DisplayNameFor(model => model.StoreID)</strong> : @Model.StoreID</h5>
-    <hr />
-
-    <h5><strong>@Html.DisplayNameFor(model => model.StoreInventories)</strong></h5>
-
+    <h4><strong>Store</strong> - @Html.DisplayFor(model => model.Name) (ID: @Model.StoreID)</h4>
+    
     <table class="table">
         <thead>
             <tr>
@@ -52,6 +47,5 @@
     </table>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.StoreID">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

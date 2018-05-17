@@ -18,7 +18,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Quantity)
             </th>
-
+            <th>
+                Price
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -36,11 +38,18 @@
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
+                @{decimal subPrice = item.Product.UnitPrice * item.Quantity;}
+                @Html.DisplayFor(modelItem => subPrice)
+            </td>
+            <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }) |
             </td>
         </tr>
         }
     </tbody>
 </table>
+<div>
+    <a asp-controller="Stores" asp-action="Index">Back to Store</a>
+</div>
