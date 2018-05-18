@@ -1,50 +1,64 @@
-﻿@model Assignment2.Models.Store
+﻿@model IEnumerable<Assignment2.Models.StoreInventory>
 
-@{
+@*@{
     ViewData["Title"] = "Store Inventory";
-    var storeID = Model.StoreID;
-}
+    var storeID = Model.storeID;
+}*@
+
+@*<h4><strong>Store</strong> - @Html.DisplayFor(model => model.Name) (ID: @Model.StoreID)</h4>*@
 
 <h2>Inventory List</h2>
 <hr />
 <div>
-    <h4><strong>Store</strong> - @Html.DisplayFor(model => model.Name) (ID: @Model.StoreID)</h4>
-    
-    <table class="table">
-        <thead>
+   
+    <form asp-controller="Stores" asp-action="Details" asp-route-id="@ViewData["StoreID"]" method="get">
+        <p>
+            Title: <input type="text" name="SearchString">
+            <input type="submit" value="Filter" />
+        </p>
+    </form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Store Name
+            </th>
+            <th>
+                Product ID
+            </th>
+            <th>
+                Product Name
+            </th>
+            <th>
+                StockLevel
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
             <tr>
-                <th>
-                    Product ID
-                </th>
-                <th>
-                    Product Name
-                </th>
-                <th>
-                    StockLevel
-                </th>
-                <th></th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Store.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StockLevel)
+                </td>
+                @*<td>
+                    <a asp-action="AddCart" asp-route-id="@Model.StoreID" asp-route-productID="@item.ProductID">Add to Cart</a>
+                </td>*@
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.StoreInventories)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ProductID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Product.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StockLevel)
-                    </td>
-                    <td>
-                        <a asp-action="AddCart" asp-route-id="@Model.StoreID" asp-route-productID="@item.ProductID">Add to Cart</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
 </div>
 <div>
     <a asp-action="Index">Back to List</a>

@@ -27,8 +27,10 @@ namespace Assignment2.Controllers
             return View(await _context.Stores.ToListAsync());
         }
 
+
+
         // GET: Stores/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, string SearchString)
         {
             if (id == null)
             {
@@ -44,9 +46,30 @@ namespace Assignment2.Controllers
             {
                 return NotFound();
             }
+            ViewData["StoreID"] = store.StoreID;
+            //var product = store.StoreInventories.Select(s => s.Store);
 
-            return View(store);
+            var storeInv = _context.StoreInventories
+                .Include(si => si.Store)
+                .Include(si => si.Product)
+                .Where(si => si.StoreID == id);
+                // from p in _context.StoreInventories select p;
+
+            if (!String.IsNullOrEmpty(SearchString))
+            {
+                storeInv = storeInv.Where(si => si.Product.Name.Contains(SearchString));
+            }
+
+            return View(storeInv);
         }
+
+        [HttpPost]
+        public string Details(string searchString, bool notUsed)
+        {
+            return "From [HttpPost]Details: filter on " + searchString;
+        }
+        
+
 
         //// GET: Stores/Create
         //public IActionResult Create()
