@@ -57,20 +57,20 @@ namespace Assignment2.Controllers
         // POST: ShoppingCarts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StoreID,ProductID,Quantity")] ShoppingCart shoppingCart)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(shoppingCart);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name", shoppingCart.ProductID);
-            ViewData["StoreID"] = new SelectList(_context.Stores, "StoreID", "Name", shoppingCart.StoreID);
-            return View(shoppingCart);
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("StoreID,ProductID,Quantity")] ShoppingCart shoppingCart)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(shoppingCart);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name", shoppingCart.ProductID);
+        //    ViewData["StoreID"] = new SelectList(_context.Stores, "StoreID", "Name", shoppingCart.StoreID);
+        //    return View(shoppingCart);
+        //}
 
         // GET: ShoppingCarts/Edit/5
         public async Task<IActionResult> Edit(int? id)
