@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Assignment2.Data;
+﻿using Assignment2.Data;
 using Assignment2.Models;
 using Assignment2.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Assignment2
 {
@@ -61,6 +57,10 @@ namespace Assignment2
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddMvc();
+
+            // Adds a default Session implementation
+            services.AddDistributedMemoryCache();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,6 +80,9 @@ namespace Assignment2
             app.UseRewriter(new RewriteOptions().AddRedirectToHttps());
             app.UseStaticFiles();
             app.UseAuthentication();
+
+            // Add session call
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

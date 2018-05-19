@@ -20,25 +20,25 @@ namespace Assignment2.Data
         public DbSet<Store> Stores { get; set; }
         public DbSet<StockRequest> StockRequests { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Order> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
+
             builder.Entity<Store>().ToTable("Store");
             builder.Entity<Product>().ToTable("Product");
             builder.Entity<OwnerInventory>().ToTable("OwnerInventory");
             builder.Entity<StoreInventory>().ToTable("StoreInventory");
             builder.Entity<StockRequest>().ToTable("StockRequest");
             builder.Entity<ShoppingCart>().ToTable("ShoppingCart");
+            builder.Entity<OrderItem>().ToTable("OrderItem");
             builder.Entity<Order>().ToTable("Order");
 
             builder.Entity<StoreInventory>().HasKey(x => new { x.StoreID, x.ProductID });
             builder.Entity<ShoppingCart>().HasKey(x => new { x.StoreID, x.ProductID });
-            builder.Entity<Order>().HasKey(x => new { x.OrderID, x.StoreID, x.ProductID });
+            builder.Entity<OrderItem>().HasKey(x => new { x.OrderID, x.StoreID, x.ProductID });
         }
     }
 }

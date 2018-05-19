@@ -11,9 +11,10 @@ using System;
 namespace Assignment2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180517123409_RemoveOrderOrderItem")]
+    partial class RemoveOrderOrderItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,37 +74,6 @@ namespace Assignment2.Data.Migrations
                     b.HasIndex("StoreID");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("Assignment2.Models.Order", b =>
-                {
-                    b.Property<int>("OrderID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("OrderDate");
-
-                    b.HasKey("OrderID");
-
-                    b.ToTable("Order");
-                });
-
-            modelBuilder.Entity("Assignment2.Models.OrderItem", b =>
-                {
-                    b.Property<int>("OrderID");
-
-                    b.Property<int>("StoreID");
-
-                    b.Property<int>("ProductID");
-
-                    b.Property<int>("Quantity");
-
-                    b.HasKey("OrderID", "StoreID", "ProductID");
-
-                    b.HasIndex("ProductID");
-
-                    b.HasIndex("StoreID");
-
-                    b.ToTable("OrderItem");
                 });
 
             modelBuilder.Entity("Assignment2.Models.OwnerInventory", b =>
@@ -310,24 +280,6 @@ namespace Assignment2.Data.Migrations
                     b.HasOne("Assignment2.Models.Store", "Store")
                         .WithMany()
                         .HasForeignKey("StoreID");
-                });
-
-            modelBuilder.Entity("Assignment2.Models.OrderItem", b =>
-                {
-                    b.HasOne("Assignment2.Models.Order", "Order")
-                        .WithMany("OrderItems")
-                        .HasForeignKey("OrderID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Assignment2.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Assignment2.Models.Store", "Store")
-                        .WithMany()
-                        .HasForeignKey("StoreID")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Assignment2.Models.OwnerInventory", b =>
