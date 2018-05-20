@@ -26,61 +26,15 @@ namespace Assignment2.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: ShoppingCarts/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var shoppingCart = await _context.ShoppingCarts
-                .Include(s => s.Product)
-                .Include(s => s.Store)
-                .SingleOrDefaultAsync(m => m.StoreID == id);
-            if (shoppingCart == null)
-            {
-                return NotFound();
-            }
-
-            return View(shoppingCart);
-        }
-
-        // GET: ShoppingCarts/Create
-        //public IActionResult Create()
-        //{
-        //    ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name");
-        //    ViewData["StoreID"] = new SelectList(_context.Stores, "StoreID", "Name");
-        //    return View();
-        //}
-
-        // POST: ShoppingCarts/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("StoreID,ProductID,Quantity")] ShoppingCart shoppingCart)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(shoppingCart);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name", shoppingCart.ProductID);
-        //    ViewData["StoreID"] = new SelectList(_context.Stores, "StoreID", "Name", shoppingCart.StoreID);
-        //    return View(shoppingCart);
-        //}
-
         // GET: ShoppingCarts/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int? productID )
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var shoppingCart = await _context.ShoppingCarts.SingleOrDefaultAsync(m => m.StoreID == id);
+            var shoppingCart = await _context.ShoppingCarts.SingleOrDefaultAsync(m => m.StoreID == id && m.ProductID == productID);
             if (shoppingCart == null)
             {
                 return NotFound();
@@ -128,9 +82,9 @@ namespace Assignment2.Controllers
         }
 
         // GET: ShoppingCarts/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, int? productID)
         {
-            if (id == null)
+            if (id == null || productID == null)
             {
                 return NotFound();
             }
@@ -138,7 +92,7 @@ namespace Assignment2.Controllers
             var shoppingCart = await _context.ShoppingCarts
                 .Include(s => s.Product)
                 .Include(s => s.Store)
-                .SingleOrDefaultAsync(m => m.StoreID == id);
+                .SingleOrDefaultAsync(m => m.StoreID == id && m.ProductID == productID);
             if (shoppingCart == null)
             {
                 return NotFound();
@@ -150,42 +104,63 @@ namespace Assignment2.Controllers
         // POST: ShoppingCarts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, int productID)
         {
-            var shoppingCart = await _context.ShoppingCarts.SingleOrDefaultAsync(m => m.StoreID == id);
+            var shoppingCart = await _context.ShoppingCarts.SingleOrDefaultAsync(m => m.StoreID == id && m.ProductID == productID);
             _context.ShoppingCarts.Remove(shoppingCart);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: ShoppingCarts/Delete/5
-        public async Task<IActionResult> CheckOut(int? id)
+        // GET: ShoppingCarts/CheckOut
+        public async Task<ActionResult> CheckOut()
         {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-            var shoppingCart = await _context.ShoppingCarts
-                .Include(s => s.Product)
-                .Include(s => s.Store)
-                .SingleOrDefaultAsync(m => m.StoreID == id);
-            if (shoppingCart == null)
+            // do your stuff like: save to database and redirect to required page.
+            try
             {
-                return NotFound();
+                if (_context.ShoppingCarts.Any())
+                {
+                    var cart = _context.ShoppingCarts.Include(c => c.Product).Include(c => c.Store);
+
+                    int oID = 1;
+                    if (_context.Orders.Any())
+                    {
+                        oID = _context.Orders.Max(o => o.OrderID);
+                        oID++;
+                    }
+
+                    Order order = new Order { OrderID = oID, OrderDate = DateTime.Now };
+                    _context.Orders.Add(order);
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(Index));
+                    // return View(await cart.ToListAsync());
+
+                }
+
+
+                
+                
+
+                //OrderItem oi = new OrderItem();
+                //_context.Orders.Add();
+                    
             }
-
-            return View(shoppingCart);
-        }
-
-        // POST: ShoppingCarts/Delete/5
-        [HttpPost, ActionName("CheckOut")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckOutConfirmed(int id)
-        {
-            var shoppingCart = await _context.ShoppingCarts.SingleOrDefaultAsync(m => m.StoreID == id);
-            _context.ShoppingCarts.Remove(shoppingCart);
-            await _context.SaveChangesAsync();
+            catch (DbUpdateConcurrencyException)
+            {
+                //if (!ShoppingCartExists(shoppingCart.StoreID))
+                //{
+                //    return NotFound();
+                //}
+                //else
+                //{
+                //    throw;
+                //}
+            }
             return RedirectToAction(nameof(Index));
+            //ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name", shoppingCart.ProductID);
+            //ViewData["StoreID"] = new SelectList(_context.Stores, "StoreID", "Name", shoppingCart.StoreID);
+            // return View(cart);
         }
 
         private bool ShoppingCartExists(int id)
