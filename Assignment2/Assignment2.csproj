@@ -15,6 +15,12 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20180511090412_AddAllModels.cs" />
     <Compile Remove="Data\Migrations\20180511090412_AddAllModels.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180520105220_RemoveIDRestrictionForOrderTable.cs" />
+    <Compile Remove="Data\Migrations\20180520105220_RemoveIDRestrictionForOrderTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180520111021_AddOrderOrderItemAgain.cs" />
+    <Compile Remove="Data\Migrations\20180520111021_AddOrderOrderItemAgain.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180520111546_RemoveOrderOrderItem2.cs" />
+    <Compile Remove="Data\Migrations\20180520111546_RemoveOrderOrderItem2.Designer.cs" />
   </ItemGroup>
 
 

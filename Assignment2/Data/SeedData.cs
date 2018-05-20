@@ -118,15 +118,28 @@ namespace Assignment2.Data
                 context.SaveChanges();
             }
 
-            //if (!context.StockRequests.Any())
-            //{
-            //    context.StockRequests.AddRange(
-            //        new StockRequest { StoreID = 1, ProductID = 1, Quantity = 10 },
-            //        new StockRequest { StoreID = 2, ProductID = 2, Quantity = 20 },
-            //        new StockRequest { StoreID = 3, ProductID = 3, Quantity = 30 }
-            //    );
-            //    context.SaveChanges();
-            //}
+            if (!context.Orders.Any())
+            {
+                context.Orders.AddRange(
+                    new Order { OrderID = 1, OrderDate = new DateTime(2018, 3, 1) },
+                    new Order { OrderID = 2, OrderDate = new DateTime(2018, 4, 1) },
+                    new Order { OrderID = 3, OrderDate = new DateTime(2018, 5, 1) }
+                );
+                context.SaveChanges();
+            }
+
+            if (!context.OrderItems.Any())
+            {
+                context.OrderItems.AddRange(
+                    new OrderItem { OrderID = 1, StoreID = 1, ProductID = 1, Quantity = 3 },
+                    new OrderItem { OrderID = 1, StoreID = 1, ProductID = 2, Quantity = 5 },
+                    new OrderItem { OrderID = 1, StoreID = 1, ProductID = 3, Quantity = 7 },
+                    new OrderItem { OrderID = 2, StoreID = 2, ProductID = 1, Quantity = 7 },
+                    new OrderItem { OrderID = 2, StoreID = 2, ProductID = 2, Quantity = 2 },
+                    new OrderItem { OrderID = 3, StoreID = 1, ProductID = 6, Quantity = 7 }
+                );
+                context.SaveChanges();
+            }
 
             //if (!context.ShoppingCarts.Any())
             //{
@@ -134,16 +147,6 @@ namespace Assignment2.Data
             //        new ShoppingCart { StoreID = 1, ProductID = 1, Quantity = 1 },
             //        new ShoppingCart { StoreID = 1, ProductID = 2, Quantity = 2 },
             //        new ShoppingCart { StoreID = 2, ProductID = 5, Quantity = 5 }
-            //    );
-            //    context.SaveChanges();
-            //}
-
-            //if (!context.Orders.Any())
-            //{
-            //    context.Orders.AddRange(
-            //        new Order { StoreID = 1, ProductID = 1, Quantity = 1 },
-            //        new Order { StoreID = 1, ProductID = 2, Quantity = 2 },
-            //        new Order { StoreID = 2, ProductID = 5, Quantity = 5 }
             //    );
             //    context.SaveChanges();
             //}

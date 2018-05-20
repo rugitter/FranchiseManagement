@@ -11,92 +11,105 @@
 }
 
 <h2>Shopping Cart</h2>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Store)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th>
-                <strong>Price</strong>
-                @*@Html.DisplayNameFor(model => model.SubPrice)*@
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<form asp-action="CheckOut">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Store.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Product.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                </td>
-                <td>
-                    @{decimal subPrice = item.Product.UnitPrice * item.Quantity;
-                        total += subPrice;
-                    }
-                    @Html.DisplayFor(modelItem => subPrice)
-
-                    @*@Html.DisplayFor(modelItem => item.SubPrice)*@
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Store)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </th>
+                <th>
+                    <strong>Price</strong>
+                    @*@Html.DisplayNameFor(model => model.SubPrice)*@
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Store.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.Name)
+                    </td>
+                    <td>
+                        @Html.EditorFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @{decimal subPrice = item.Product.UnitPrice * item.Quantity;
+                            total += subPrice;
+                        }
+                        @Html.DisplayFor(modelItem => subPrice)
 
-@foreach (var a in carts)
+                        @*@Html.DisplayFor(modelItem => item.SubPrice)*@
+                    </td>
+                    <td>
+                        @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+                        <a asp-action="Edit" asp-route-id="@item.StoreID" asp-route-productID="@item.ProductID">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.StoreID" asp-route-productID="@item.ProductID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
+
+@*@foreach (var a in carts)
 {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => a.StoreID)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => a.ProductID)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => a.Quantity)
-    </td>
-</tr>
-<br />
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => a.StoreID)
+        <
+        <td>
+            @Html.DisplayFor(modelItem => a.ProductID)
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => a.Quantity)
+        </td>
+    </tr>
+    <br />
 }
-<hr />
+<hr />*@
 <div>
     <p style="text-align:right"><strong>SubTotal</strong>: @total</p>
+    <style>
+        button {
+            float: right;
+        }
+    </style>
+    <button type="button" onclick="location.href='@Url.Action("CheckOut", "ShoppingCarts")'" class="btn btn-default">Check Out</button>
+    <br><br>
 </div>
-<div>
-    <form asp-action="Edit">
-        @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="StoreID" />
-            <input type="hidden" asp-for="ProductID" />
+@*<div>
+        <form asp-action="Edit">
+            @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="StoreID" />
+                <input type="hidden" asp-for="ProductID" />
+                <div class="form-group">
+                    <label asp-for="Quantity" class="control-label"></label>
+                    <input asp-for="Quantity" class="form-control" />
+                    <span asp-validation-for="Quantity" class="text-danger"></span>
+                </div>
             <div class="form-group">
-                <label asp-for="Quantity" class="control-label"></label>
-                <input asp-for="Quantity" class="form-control" />
-                <span asp-validation-for="Quantity" class="text-danger"></span>
-            </div>*@
-        <div class="form-group">
-            <input type="submit" value="Update" class="btn btn-default" />
-            <input type="submit" value="Check Out" class="btn btn-default" />
-        </div>
-    </form>
-</div>
+                <input type="submit" value="Update" class="btn btn-default" />
+                <input type="submit" value="Check Out" class="btn btn-default" />
+            </div>
+        </form>
+    </div>*@
+
+
 <div>
     <a asp-controller="Stores" asp-action="Index">Back to Store</a>
 </div>
