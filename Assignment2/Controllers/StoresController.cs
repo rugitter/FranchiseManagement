@@ -30,8 +30,6 @@ namespace Assignment2.Controllers
             return View(await _context.Stores.ToListAsync());
         }
 
-
-
         // GET: Stores/Details/5
         public async Task<IActionResult> Details(int? id, string SearchString)
         {
@@ -50,6 +48,7 @@ namespace Assignment2.Controllers
                 return NotFound();
             }
             ViewData["StoreID"] = store.StoreID;
+            ViewData["StoreName"] = store.Name;
             //var product = store.StoreInventories.Select(s => s.Store);
 
             var storeInv = _context.StoreInventories
@@ -72,79 +71,6 @@ namespace Assignment2.Controllers
             return "From [HttpPost]Details: filter on " + searchString;
         }
 
-        //// GET: Stores/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        //// POST: Stores/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("StoreID,Name")] Store store)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(store);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(store);
-        //}
-
-
-        // GET: Stores/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var store = await _context.Stores.SingleOrDefaultAsync(m => m.StoreID == id);
-        //    if (store == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(store);
-        //}
-
-        //// POST: Stores/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("StoreID,Name")] Store store)
-        //{
-        //    if (id != store.StoreID)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(store);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!StoreExists(store.StoreID))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(store);
-        //}
 
         // GET: Stores/AddCart/5
         // id - StoreID - default route parameter
@@ -187,43 +113,28 @@ namespace Assignment2.Controllers
         // POST: Stores/AddCart/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddCart([Bind("StoreID,ProductID,Quantity")] ShoppingCart cart)
+        public async Task<IActionResult> AddCart([Bind("StoreID,ProductID,Quantity")] ShoppingCart cart)
         {
             if (ModelState.IsValid)
             {
-                //try
-                //{
-                //    _context.ShoppingCarts.Add(cart);
-                //    await _context.SaveChangesAsync();
-                //}
-                //catch (DbUpdateConcurrencyException)
-                //{
-                //    if (!CartEntryExists(cart))
-                //    {
-                //        return NotFound();
-                //    }
-                //    else
-                //    {
-                //        throw;
-                //    }
-                //}
-
-                var carts = HttpContext.Session.Get<List<ShoppingCart>>(SessionKeyCart);
-                if (carts == null)
+                try
                 {
-                    carts = new List<ShoppingCart>();
-                    carts.Add(cart);
-                    HttpContext.Session.Set<List<ShoppingCart>>(SessionKeyCart, carts);
+                    _context.ShoppingCarts.Add(cart);
+                    await _context.SaveChangesAsync();
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    carts.Add(cart);
-                    HttpContext.Session.Set<List<ShoppingCart>>(SessionKeyCart, carts);
+                    if (!CartEntryExists(cart))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
-
                 return RedirectToAction(nameof(Index));
             }
-
             return View(cart);
         }
 

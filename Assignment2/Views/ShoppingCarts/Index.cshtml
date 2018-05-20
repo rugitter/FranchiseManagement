@@ -43,20 +43,15 @@
                         @Html.DisplayFor(modelItem => item.Product.Name)
                     </td>
                     <td>
-                        @Html.EditorFor(modelItem => item.Quantity)
+                        @Html.DisplayFor(modelItem => item.Quantity)
                     </td>
                     <td>
                         @{decimal subPrice = item.Product.UnitPrice * item.Quantity;
                             total += subPrice;
                         }
                         @Html.DisplayFor(modelItem => subPrice)
-
-                        @*@Html.DisplayFor(modelItem => item.SubPrice)*@
                     </td>
                     <td>
-                        @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
                         <a asp-action="Edit" asp-route-id="@item.StoreID" asp-route-productID="@item.ProductID">Edit</a> |
                         <a asp-action="Delete" asp-route-id="@item.StoreID" asp-route-productID="@item.ProductID">Delete</a>
                     </td>

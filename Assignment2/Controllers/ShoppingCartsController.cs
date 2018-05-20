@@ -45,8 +45,6 @@ namespace Assignment2.Controllers
         }
 
         // POST: ShoppingCarts/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("StoreID,ProductID,Quantity")] ShoppingCart shoppingCart)
@@ -115,7 +113,6 @@ namespace Assignment2.Controllers
         // GET: ShoppingCarts/CheckOut
         public async Task<ActionResult> CheckOut()
         {
-            // do your stuff like: save to database and redirect to required page.
             try
             {
                 if (_context.ShoppingCarts.Any())
@@ -133,34 +130,26 @@ namespace Assignment2.Controllers
                     _context.Orders.Add(order);
                     await _context.SaveChangesAsync();
 
-                    return RedirectToAction(nameof(Index));
-                    // return View(await cart.ToListAsync());
+                    foreach (var c in cart)
+                    {
+                        OrderItem orderItem = new OrderItem
+                            { OrderID = oID, StoreID = c.StoreID, ProductID = c.ProductID, Quantity = c.Quantity };
+                        _context.OrderItems.Add(orderItem);
+                    }
+                    await _context.SaveChangesAsync();
 
+                    var shoppingCartToRemove = _context.ShoppingCarts;
+                    _context.RemoveRange(shoppingCartToRemove);
+                    _context.SaveChanges();
                 }
+                return RedirectToAction(nameof(Index));
 
-
-                
-                
-
-                //OrderItem oi = new OrderItem();
-                //_context.Orders.Add();
-                    
             }
             catch (DbUpdateConcurrencyException)
             {
-                //if (!ShoppingCartExists(shoppingCart.StoreID))
-                //{
-                //    return NotFound();
-                //}
-                //else
-                //{
-                //    throw;
-                //}
+                throw;
+                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
-            //ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name", shoppingCart.ProductID);
-            //ViewData["StoreID"] = new SelectList(_context.Stores, "StoreID", "Name", shoppingCart.StoreID);
-            // return View(cart);
         }
 
         private bool ShoppingCartExists(int id)

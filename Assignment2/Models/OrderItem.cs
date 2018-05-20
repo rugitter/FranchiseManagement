@@ -17,25 +17,6 @@ namespace Assignment2.Models
         [Required, Range(0, 100)]
         public int Quantity { get; set; }
 
-        //[Display(Name = "Total Price"), DataType(DataType.Currency)]
-        //public decimal SubTotal {
-        //    get {
-        //        foreach(ShoppingCart i in ShoppingCarts)
-        //        { sub += i.SubPrice; }
-
-        //        return sub;
-        //    }
-        //}
-
-        //// The subtotal price = item's unit price x amout of unit
-        //public decimal SubPrice
-        //{
-        //    get
-        //    {
-        //        return Product.UnitPrice * Quantity;
-        //    }
-        //}
-
         public Order Order { get; set; }
         public Store Store { get; set; }
         public Product Product { get; set; }
