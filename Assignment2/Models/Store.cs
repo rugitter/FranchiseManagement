@@ -7,6 +7,8 @@ namespace Assignment2.Models
 {
     public class Store
     {
+
+        
         public int StoreID { get; set; }
 
         [Required]
