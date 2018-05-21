@@ -21,6 +21,8 @@
     <Compile Remove="Data\Migrations\20180520111021_AddOrderOrderItemAgain.Designer.cs" />
     <Compile Remove="Data\Migrations\20180520111546_RemoveOrderOrderItem2.cs" />
     <Compile Remove="Data\Migrations\20180520111546_RemoveOrderOrderItem2.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180521134339_ChangeDateFormat.cs" />
+    <Compile Remove="Data\Migrations\20180521134339_ChangeDateFormat.Designer.cs" />
   </ItemGroup>
 
 

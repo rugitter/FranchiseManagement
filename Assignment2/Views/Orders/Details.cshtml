@@ -4,28 +4,21 @@
     ViewData["Title"] = "Details";
 }
 
+<script src="~/lib/angular/angular.min.js"></script>
+<script src="~/app/OrderDetailApp.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
 <h2>Details</h2>
 
-<div>
+<div ng-app="OrderDetailApp" ng-controller="OrderDetailController">
     <h4>Order</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.OrderID)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.OrderID)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.OrderDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.OrderDate)
-        </dd>
-    </dl>
     <table class="table">
         <thead>
             <tr>
+                <th>
+                    Order ID
+                </th>
                 <th>
                     Store ID
                 </th>
@@ -35,27 +28,15 @@
                 <th>
                     Quantity
                 </th>
-                @*<th></th>*@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.OrderItems)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StoreID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Product.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Quantity)
-                    </td>
-                    @*<td>
-                        <a asp-action="AddCart" asp-route-id="@Model.StoreID" asp-route-productID="@item.ProductID">Add to Cart</a>
-                    </td>*@
-                </tr>
-            }
+            <tr ng-repeat="item in orderItems" | filter : searchStudent>
+                <td>{{ item.orderID}}</td>
+                <td>{{ item.storeID}}</td>
+                <td>{{ item.productID}}</td>
+                <td>{{ item.quantity}}</td>
+            </tr>
         </tbody>
     </table>
 </div>

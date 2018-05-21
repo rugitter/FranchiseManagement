@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Assignment2.Controllers
 {
-    [Authorize(Roles = "Customer, Owner")]
+    [Authorize(Roles = "Customer")]
     public class StoresController : Controller
     {
 

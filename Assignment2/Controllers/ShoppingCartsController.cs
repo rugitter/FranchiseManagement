@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Assignment2.Data;
 using Assignment2.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Assignment2.Controllers
 {
+    [Authorize(Roles = "Customer")]
     public class ShoppingCartsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -126,7 +128,7 @@ namespace Assignment2.Controllers
                         oID++;
                     }
 
-                    Order order = new Order { OrderID = oID, OrderDate = DateTime.Now };
+                    Order order = new Order { OrderID = oID, OrderDate = DateTime.Now.ToLocalTime()};
                     _context.Orders.Add(order);
                     await _context.SaveChangesAsync();
 
