@@ -58,26 +58,21 @@
                 <td>{{ order.OrderID}}</td>
                 <td>{{ order.OrderDate}}</td>
                 <td>
-                    <button class="btn" ng-click="ViewOrder(order.id)">
+                    <button class="btn" ng-click="ViewOrder(order.OrderID)">
                         <span></span>View
                     </button>
                 </td>
-
-                <script>
-                    var app = angular.module('myApp', []);
-                    app.controller('OrderCtrl', function ($scope, $http) {
-                        $http.get("ApplicationDbContext.cs")
-                            .then(function (response) { $scope.names = response.data.records; });
-                    });
-                </script>
-
-
-
             </tr>
         </tbody>
     </table>
 
-
+    @*<script>
+        var app = angular.module('myApp', []);
+        app.controller('OrderCtrl', function ($scope, $http) {
+            $http.get("ApplicationDbContext.cs")
+                .then(function (response) { $scope.names = response.data.records; });
+        });
+    </script>*@
 
 
 
@@ -87,7 +82,7 @@
 
 
 
-    <table class="table">
+    @*<table class="table">
             <thead>
                 <tr>
                     <th>
@@ -117,7 +112,7 @@
                     </tr>
                 }
             </tbody>
-        </table>
+        </table>*@
 
 
 
