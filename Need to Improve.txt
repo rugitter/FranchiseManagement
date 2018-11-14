@@ -1,0 +1,2 @@
+Add customized error page using middleware.
+See example 12 week 7. recording 1:30:00

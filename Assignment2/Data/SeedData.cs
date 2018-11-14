@@ -24,15 +24,14 @@ namespace Assignment2.Data
 
             var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
 
-            await EnsureUserHasRole(userManager, "owner@example.com", Constants.OwnerRole);
-            await EnsureUserHasRole(userManager, "store@example.com", Constants.FranchiseeRole);
-            await EnsureUserHasRole(userManager, "customer@example.com", Constants.CustomerRole);
-            await EnsureUserHasRole(userManager, "s3181520@student.rmit.edu.au", Constants.OwnerRole);
-            await EnsureUserHasRole(userManager, "s3679535@student.rmit.edu.au", Constants.OwnerRole);
-            await EnsureUserHasRole(userManager, "holder1@example.com", Constants.FranchiseeRole);
-            await EnsureUserHasRole(userManager, "holder2@example.com", Constants.FranchiseeRole);
-            //await EnsureUserHasRole(userManager, "csuchq@gmail.com", Constants.FranchiseeRole);
-            //await EnsureUserHasRole(userManager, "csuchq@hotmail.com", Constants.CustomerRole);
+            // Self-added code
+            // Insert new users with default password before assigning roles to them
+            await AddUserAndRole(userManager, "owner@example.com", Constants.OwnerRole);
+            await AddUserAndRole(userManager, "store@example.com", Constants.FranchiseeRole);
+            await AddUserAndRole(userManager, "customer@example.com", Constants.CustomerRole);
+            await AddUserAndRole(userManager, "s3181520@student.rmit.edu.au", Constants.OwnerRole);
+            await AddFranUserAndRole(userManager, "holder1@example.com", Constants.FranchiseeRole, 1);
+            await AddFranUserAndRole(userManager, "holder2@example.com", Constants.FranchiseeRole, 2);
 
             var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
 
@@ -141,22 +140,42 @@ namespace Assignment2.Data
                 context.SaveChanges();
             }
 
-            //if (!context.ShoppingCarts.Any())
-            //{
-            //    context.ShoppingCarts.AddRange(
-            //        new ShoppingCart { StoreID = 1, ProductID = 1, Quantity = 1 },
-            //        new ShoppingCart { StoreID = 1, ProductID = 2, Quantity = 2 },
-            //        new ShoppingCart { StoreID = 2, ProductID = 5, Quantity = 5 }
-            //    );
-            //    context.SaveChanges();
-            //}
         }
 
-        private static async Task EnsureUserHasRole(
+        private static async Task AddUserAndRole(
             UserManager<ApplicationUser> userManager, string userName, string role)
         {
             var user = await userManager.FindByNameAsync(userName);
-            if (user != null && !await userManager.IsInRoleAsync(user, role))
+            string password = "123456";
+
+            if (user == null)
+            {
+                await userManager.CreateAsync(new ApplicationUser { UserName = userName,
+                    Email = userName, EmailConfirmed = true }, password);
+            }
+            if (!await userManager.IsInRoleAsync(user, role))
+            {
+                await userManager.AddToRoleAsync(user, role);
+            }
+        }
+
+        private static async Task AddFranUserAndRole(
+            UserManager<ApplicationUser> userManager, string userName, string role, int storeID)
+        {
+            var user = await userManager.FindByNameAsync(userName);
+            string password = "123456";
+
+            if (user == null)
+            {
+                await userManager.CreateAsync(new ApplicationUser
+                {
+                    UserName = userName,
+                    Email = userName,
+                    EmailConfirmed = true,
+                    StoreID = storeID,
+                }, password);
+            }
+            if (!await userManager.IsInRoleAsync(user, role))
             {
                 await userManager.AddToRoleAsync(user, role);
             }
